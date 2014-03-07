@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class IndexActivity extends Activity {
 
 	Button ins;
 	Button conn;
@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		inscription = new Intent(MainActivity.this, SecondActivity.class);
-		connexion = new Intent(MainActivity.this, ThirthActivity.class);
+		inscription = new Intent(IndexActivity.this, InscriptionActivity.class);
+		connexion = new Intent(IndexActivity.this, ConnectionActivity.class);
 		ins =  (Button) findViewById(R.id.signin);
 		conn =  (Button) findViewById(R.id.login);
 		ins.setOnClickListener(inscriptionlistener);

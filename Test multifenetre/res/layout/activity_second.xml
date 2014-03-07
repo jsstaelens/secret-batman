@@ -28,4 +28,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/motdepasse" 
 		android:inputType="textPassword"   />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/soumission_but"
+        android:text="OK"/>
+    
 </LinearLayout>
