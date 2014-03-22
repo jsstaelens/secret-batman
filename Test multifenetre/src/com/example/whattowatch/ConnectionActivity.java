@@ -21,7 +21,7 @@ public class ConnectionActivity extends Activity{
 			
 			go = new Intent(ConnectionActivity.this, AccueilActivity.class);
 			pseudo = (EditText) findViewById(R.id.pseudo);
-			go.putExtra(AGE, pseudo.getText());
+			go.putExtra(AGE, pseudo.getText().toString());
 			startActivity(go);
 			
 			
