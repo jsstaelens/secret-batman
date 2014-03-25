@@ -40,26 +40,26 @@ public class MainActivity extends Activity {
 	    		return;
 	    	}
 
-	    	/*// On dŽclare le pattern que lÕon doit vŽrifier
+	    	/*// On dï¿½clare le pattern que lï¿½on doit vï¿½rifier
 	    	Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-	    	// On dŽclare un matcher, qui comparera le pattern avec la
-	    	// string passŽe en argument
+	    	// On dï¿½clare un matcher, qui comparera le pattern avec la
+	    	// string passï¿½e en argument
 	    	Matcher m = p.matcher(loginTxt);
-	    	// Si lÕadresse mail saisie ne correspond au format dÕune
-	    	// adresse mail on un affiche un message ˆ l'utilisateur
+	    	// Si lï¿½adresse mail saisie ne correspond au format dï¿½une
+	    	// adresse mail on un affiche un message ï¿½ l'utilisateur
 	    	if (!m.matches()) {
 	    	        // Toast est une classe fournie par le SDK Android
-	    		// pour afficher les messages (indications) ˆ l'intention de   
-	                    // l'utilisateur. Ces messages ne possŽdent pas d'interaction avec l'utilisateur
-	    		// Le premier argument reprŽsente le contexte, puis
-	    		// le message et ˆ la fin la durŽe d'affichage du Toast (constante 
-	                    // LENGTH_SHORT ou LENGTH_LONG). Sans oublier d'appeler la mŽthode
+	    		// pour afficher les messages (indications) ï¿½ l'intention de   
+	                    // l'utilisateur. Ces messages ne possï¿½dent pas d'interaction avec l'utilisateur
+	    		// Le premier argument reprï¿½sente le contexte, puis
+	    		// le message et ï¿½ la fin la durï¿½e d'affichage du Toast (constante 
+	                    // LENGTH_SHORT ou LENGTH_LONG). Sans oublier d'appeler la mï¿½thode
 	                    //show pour afficher le Toast
 	    		Toast.makeText(MainActivity.this, R.string.email_format_error,
 	    	        Toast.LENGTH_SHORT).show();
 	    			return;
 	    		}*/
-
+//creation intent
 	    	Intent intent = new Intent(MainActivity.this,LoginDisplayActivity.class);
 	        intent.putExtra(EXTRA_LOGIN, loginTxt);
 	    	intent.putExtra(EXTRA_PASSWORD, passTxt);
