@@ -6,5 +6,12 @@ Si vous avez fait un point, modifier ce fichier et mettre « fait[date][correct
 - Rajouter la proposition d’un film à un autre utilisateur dans les faits élémentaires.
 - Rajouter une table Proposition dans le schéma ORM et dans le schéma des tables.
 - Rajouter la proposition d’un film à un autre utilisateur dans les users stories.
+- Faire deux schemas de processus ( ce qu'on a fait cette séance )
+- Scanner les cartes CRC
+- Schema relationnel : rajouter une table cine separée
+- PARTOUT : rajouter nombre de vue à film
+- PARTOUT : rajouter une adresse email à Utilisateur
+- PARTOUT : rajouter les messages entre utilisateurs
+- PARTOUT : rajouter les coordonnées géographiques pour les cinés
 
  
