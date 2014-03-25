@@ -1,0 +1,10 @@
+To do List:
+Ajouter ce qu’il faut faire au format [date]: « ce qu’il faut faire » 
+Si vous avez fait un point, modifier ce fichier et mettre « fait[date][correcteur] » au début de la ligne.
+
+[25 mars]:
+- Rajouter la proposition d’un film à un autre utilisateur dans les faits élémentaires.
+- Rajouter une table Proposition dans le schéma ORM et dans le schéma des tables.
+- Rajouter la proposition d’un film à un autre utilisateur dans les users stories.
+
+ 
