@@ -1,0 +1,192 @@
+create table Utilisateur(pseudo char(15) not null primary key,
+			sexe char(1) not null,
+			motdepasse char(15) not null, 
+			age Integer not null,
+			langue char(15) not null default 'English',
+			droit Integer not null default 0) ;
+insert into Utilisateur (pseudo , sexe , motdepasse , age , langue , droit) values ('Oli' , 'M' , 'azerty' , 12 , 'English' , 0);
+insert into Utilisateur (pseudo , sexe , motdepasse , age , langue , droit) values ('Emilie' , 'F' , 'Linux' , 16 , 'French' , 0);
+insert into Utilisateur (pseudo , sexe , motdepasse , age) values( 'Hack42' , 'M' , 'scrip' , 42);
+insert into Utilisateur (pseudo , sexe , motdepasse , age , droit) values ('Sudo17' , 'M' , 'Iamagod' , 18 , 1);
+insert into Utilisateur (pseudo , sexe , motdepasse , age , langue , droit) values ('Michel-Camionneur', 'M', 'azerty', 42 , 'English' , 1);
+insert into Utilisateur (pseudo , sexe , motdepasse , age , langue , droit) values ('Etienne22', 'M', 'azerty', 42, 'English', 1);
+
+create table Film( titre char(50) not null,
+		  annee Integer not null, 
+		  duree Integer not null, 	
+		  synopsis char(500) not null,
+		  agemin Integer, 
+		  franchise char(50),
+		  accepte Integer not null, 
+		  illustration char(100),
+                  realisateur char(40) not null default 'realisateur', 
+		  primary key(titre , annee));
+insert into Film ( titre , annee , duree , synopsis, accepte) values ( '99 francs' , 2007 , 100 , 'Un publicitaire part en vrille' , 0);
+insert into Film ( titre , annee , duree , synopsis, accepte) values ( 'La guerre des boutons' , 2011 , 109 , 'Des enfants font la guerre' , 1);
+insert into Film ( titre , annee , duree , synopsis, accepte) values ( 'La guerre des boutons' , 1962 , 90 , 'Des enfants font la guerre' , 1);
+insert into Film ( titre , annee , duree , synopsis, agemin, franchise , accepte , illustration) values ( 'the Lord of the Rings: The Two Towers', 2002, 235 , 'Gandalf is back' , 12 , 'the Lord of the Rings', 1 , '~/TTT.jpg');
+insert into Film ( titre , annee , duree , synopsis, agemin, franchise , accepte , illustration, realisateur) values ( 'the Lord of the Rings: The Return of The King', 2003, 235 , 'Frodon is so Gay!!!' , 12 , 'the Lord of the Rings', 1 , '~/ROTK.jpg','Peter Jackson');
+insert into Film ( titre , annee , duree , synopsis, agemin, franchise , accepte, realisateur) values ( 'The Hobbit', 2012, 246 , 'Le Hobbit aide les nains' , 12 , 'The Hobbit', 1, 'Peter Jackson');
+insert into Film ( titre , annee , duree , synopsis, agemin, accepte) values ( 'Django unchained', 2012, 188 , 'L esclave se rebelle' , 16 , 1);
+insert into Film(titre, annee, duree, synopsis, agemin, accepte) values ('Cars', 2006, 90, 'La petite voiture fait la course', 4, 1);
+insert into Film(titre, annee, duree, synopsis, agemin, accepte) values ('Hunger Games', 2011, 120, 'La jeune fille tue tout le monde', 12, 1);
+insert into Film(titre, annee, duree, synopsis, agemin, accepte) values ('Pirates des Caraibes', 2003, 100, 'Les pirates attaquent', 12, 1);
+insert into Film(titre, annee, duree, synopsis, agemin, accepte) values ('Dikkenek', 2006, 100, 'Ca manque de frites', 12, 1);
+insert into Film(titre, annee, duree, synopsis, agemin, accepte) values ('La meute', 2010, 120, 'Les loups attaquent', 16, 1);
+insert into Film(titre, annee, duree, synopsis, accepte) values ('X-Men', 2000, 120, 'Les mutants sauvent le monde', 1);
+insert into Film(titre, annee, duree, synopsis, franchise, accepte) values ('The Hobbit2', 2013, 180, 'Le hobbit aide toujours les nains', 'The Hobbit', 1);
+
+create table Vu ( pseudo char(15) not null, 
+		  titre char(50) not null, 
+		  annee Integer not null, 
+		  unique(pseudo , titre , annee),
+		  foreign key (pseudo) references Utilisateur(pseudo), 
+		  foreign key (titre , annee) references Film( titre , annee));
+
+insert into Vu (pseudo , titre , annee) values ('Oli' , 'La guerre des boutons' , 2011);
+insert into Vu (pseudo , titre , annee) values ('Emilie' , 'La guerre des boutons' , 1962);
+insert into Vu (pseudo , titre , annee) values ('Emilie' , 'La guerre des boutons' , 2011);
+insert into Vu (pseudo , titre , annee) values ('Sudo17' , '99 francs' , 2007);
+insert into Vu (pseudo , titre , annee) values ('Hack42' , 'the Lord of the Rings: The Return of The King' , 2003);
+insert into Vu (pseudo , titre , annee) values ('Hack42' , 'the Lord of the Rings: The Two Towers' , 2002);
+insert into Vu(pseudo, titre, annee) values('Michel-Camionneur', 'Django unchained', 2012);
+insert into Vu(pseudo, titre, annee) values ('Michel-Camionneur', 'Cars', 2006);
+insert into Vu(pseudo, titre, annee) values ('Etienne22', 'Cars', 2006);
+
+create table Evaluation( pseudo char(15) not null, 
+			titre char(50) not null, 	
+			annee Integer not null, 
+			cote Integer not null, 
+			primary key (pseudo , titre , annee), 
+			foreign key (pseudo) references Utilisateur(pseudo), 
+			foreign key (titre , annee) references Film( titre , annee));
+insert into Evaluation (pseudo , titre , annee , cote) values ('Hack42' , 'the Lord of the Rings: The Two Towers' , 2002 , 18);
+insert into Evaluation (pseudo , titre , annee , cote) values ('Oli' , '99 francs' , 2007 , 17);
+insert into Evaluation (pseudo , titre , annee , cote) values ('Oli' , 'the Lord of the Rings: The Two Towers' , 2002 , 17);
+insert into Evaluation (pseudo , titre , annee , cote) values ('Hack42' , '99 francs' , 2007 , 3);
+insert into Evaluation (pseudo, titre, annee, cote) values('Michel-Camionneur', 'The Hobbit', 2012, 19);
+insert into Evaluation (pseudo, titre, annee, cote) values ('Etienne22', 'The Hobbit', 2012, 19);
+insert into Evaluation (pseudo, titre, annee, cote) values ('Michel-Camionneur', 'Hunger Games', 2011, 1);
+
+create table Envie ( pseudo char(15) not null, 
+		  titre char(50) not null, 
+		  annee Integer not null, 
+		  unique(pseudo , titre , annee),
+		  foreign key (pseudo) references Utilisateur(pseudo), 
+		  foreign key (titre , annee) references Film( titre , annee));
+insert into Envie (pseudo , titre , annee) values ('Hack42' , 'La guerre des boutons' , 2011);
+insert into Envie (pseudo , titre , annee) values ('Sudo17' , 'La guerre des boutons' , 1962);
+insert into Envie (pseudo , titre , annee) values ('sudo17' , 'La guerre des boutons' , 2011);
+insert into Envie (pseudo , titre , annee) values ('Emilie' , '99 francs' , 2007);
+insert into Envie (pseudo , titre , annee) values ('Oli' , 'the Lord of the Rings: The Return of The King' , 2003);
+insert into Envie (pseudo , titre , annee) values ('Emilie' , 'the Lord of the Rings: The Two Towers' , 2002);
+insert into Envie (pseudo, titre, annee) values ('Michel-Camionneur', 'The Hobbit', 2012);
+insert into Envie (pseudo, titre, annee) values ('Etienne22', 'The Hobbit', 2012);
+
+create table Commentaires ( pseudo char(15) not null, 
+		  	titre char(50) not null, 
+		  	annee Integer not null, 
+		  	commentaire char(500) not null, 
+		  	foreign key (pseudo) references Utilisateur(pseudo), 
+		  	foreign key (titre , annee) references Film( titre , annee));
+
+insert into Commentaires (pseudo , titre , annee , commentaire) values ('Hack42' , 'the Lord of the Rings: The Two Towers' , 2002 , 'J aime marcher vers le sud, on a l impression de descendre');
+insert into Commentaires (pseudo , titre , annee , commentaire) values ('Hack42' , 'the Lord of the Rings: The Two Towers' , 2002 , 'un soleil rouge se leve, beaucoup de sang a du couler cette nuit');
+insert into Commentaires (pseudo , titre , annee , commentaire) values ('Oli' , '99 francs' , 2007 , 'Je crois qu à la base, je voulais faire le bien autour de moi. Ça n a pas été possible pour deux raisons : parce qu on m en a empêché, et aussi un peu parce que j ai abdiqué.');
+insert into Commentaires (pseudo , titre , annee , commentaire) values ('Hack42' , '99 francs' , 2007 , 'Créatif, c est pas un boulot si facile. C est aussi pour ça qu on est si bien payés, pour nous faire taire.');
+insert into Commentaires (pseudo , titre , annee , commentaire) values ('Oli' , '99 francs' , 2007 ,'Tout est provisoire. L amour, l art, la planète Terre, vous, moi. Surtout moi.');
+insert into Commentaires (pseudo, titre, annee, commentaire) values ('Michel-Camionneur', 'The Hobbit', 2012, 'J adore ce film');
+insert into Commentaires (pseudo, titre, annee, commentaire) values ('Etienne22', 'The Hobbit',2012,'J adore ce film');
+insert into Commentaires (pseudo, titre, annee, commentaire) values ('Michel-Camionneur', 'Hunger Games', 2011, 'Trop nul');
+insert into Commentaires (pseudo, titre, annee, commentaire) values ('Michel-Camionneur', 'Hunger Games', 2011, 'Finalement c est encore plus nul quand on le voit une deuxieme fois');
+
+create table Motcle ( titre char(50) not null, 
+		      annee Integer not null, 
+		      motcle char(50) not null,
+		      visible Integer not null default 0, 
+		      primary key ( titre, annee , motcle),
+		      foreign key(titre , annee) references Film( titre , annee));
+
+insert into Motcle ( titre , annee , motcle, visible ) values ('99 francs' , 2007 , 'Cocaine',1);
+insert into Motcle ( titre , annee , motcle, visible ) values ('99 francs' , 2007 , 'Publicité',1);
+insert into Motcle ( titre , annee , motcle, visible ) values ('the Lord of the Rings: The Two Towers', 2002, 'Gandalf',1);
+insert into Motcle ( titre , annee , motcle, visible ) values ('the Lord of the Rings: The Return of The King', 2003, 'Gandalf',1);
+insert into Motcle (titre, annee, motcle, visible) values ('The Hobbit', 2012, 'enfantin', 1);
+insert into Motcle (titre, annee, motcle, visible) values ('The Hobbit', 2012, 'Gandalf', 1);
+insert into Motcle (titre, annee, motcle, visible) values ('Cars', 2006, 'enfantin', 1);
+
+create table Genre ( titre char(50) not null, 
+		      annee Integer not null, 
+		      genre char(50) not null, 
+		      primary key ( titre , annee , genre),
+		      foreign key(titre , annee) references Film( titre , annee));
+
+insert into Genre ( titre , annee , genre ) values ('99 francs' , 2007 , 'Fiction');
+insert into Genre( titre , annee , genre) values ('99 francs' , 2007 , 'Comédie');
+insert into Genre ( titre , annee , genre) values ('the Lord of the Rings: The Two Towers', 2002, 'Guerre');
+insert into Genre ( titre , annee , genre) values ('the Lord of the Rings: The Return of The King', 2003, 'Guerre');
+insert into Genre ( titre , annee , genre) values ('the Lord of the Rings: The Return of The King', 2003, 'Aventure');
+insert into Genre ( titre , annee , genre ) values ('the Lord of the Rings: The Two Towers', 2002, 'Aventure');
+insert into Genre (titre, annee, genre) values ('The Hobbit', 2012, 'Aventure');
+insert into Genre (titre, annee, genre) values ('The Hobbit', 2012, 'Adulte');
+insert into Genre (titre, annee, genre) values ('Cars', 2006, 'Adulte');
+
+create table Origine ( titre char(50) not null, 
+		      annee Integer not null, 
+		      pays char(50) not null, 
+		      primary key ( titre , annee , pays),
+		      foreign key(titre , annee) references Film( titre , annee));
+
+insert into Origine ( titre , annee , pays) values ('99 francs' , 2007 , 'France');
+insert into Origine ( titre , annee , pays) values ('the Lord of the Rings: The Two Towers', 2002, 'USA');
+insert into Origine ( titre , annee , pays) values ('the Lord of the Rings: The Return of The King', 2003, 'USA');
+insert into Origine ( titre , annee , pays) values ('the Lord of the Rings: The Return of The King', 2003, 'New-Zeland');
+insert into Origine ( titre , annee , pays) values ('the Lord of the Rings: The Two Towers', 2002, 'New-Zeland');
+insert into Origine(titre, annee, pays) values ('Dikkenek', 2006, 'Belgique');
+insert into Origine(titre, annee, pays) values ('Dikkenek', 2006, 'Pays-Bas');
+insert into Origine (titre, annee, pays) values ('La meute', 2010, 'Belgique');
+
+create table Traduction ( titre char(50) not null, 
+		      annee Integer not null, 
+		      langue char(50) not null, 
+		      primary key ( titre , annee , langue),
+		      foreign key(titre , annee) references Film( titre , annee));
+
+insert into Traduction ( titre , annee , langue) values ('99 francs' , 2007 , 'Francais');
+insert into Traduction ( titre , annee , langue) values ('the Lord of the Rings: The Two Towers', 2002, 'English');
+insert into Traduction ( titre , annee , langue) values ('the Lord of the Rings: The Return of The King', 2003, 'Francais');
+insert into Traduction ( titre , annee , langue) values ('the Lord of the Rings: The Return of The King', 2003, 'English');
+insert into Traduction ( titre , annee , langue) values ('the Lord of the Rings: The Two Towers', 2002, 'Francais');
+
+create table Recompenses ( prix char(50) not null, 
+			   anneeprix Integer not null, 
+			   titre char(50) not null, 
+			   annee Integer not null, 
+			   primary key ( prix , annee)
+		           foreign key (titre , annee) references Film( titre , annee));
+insert into Recompenses ( prix , anneeprix , titre , annee) values ('Geek s Award' , 2004 , 'the Lord of the Rings: The Return of The King', 2003);
+insert into Recompenses ( prix , anneeprix , titre , annee) values ('Nerd s Award' , 2004 , 'the Lord of the Rings: The Return of The King', 2003);
+insert into Recompenses (prix, anneeprix, titre, annee) values ('Meilleur realisateur aux oscars', 2013, 'The Hobbit', 2012);
+insert into Recompenses (prix, anneeprix, titre, annee) values ('Meilleurs decors aux oscars', 2013, 'The Hobbit', 2012);
+
+create table Acteur ( titre char(50) not null, 
+		      annee Integer not null, 
+		      acteur char(50) not null, 
+		      primary key ( titre , annee , acteur),
+		      foreign key(titre , annee) references Film( titre , annee));
+insert into Acteur (titre, annee, acteur) values ('The Hobbit', 2012, 'Ian McKellen');
+insert into Acteur (titre, annee, acteur) values ('The Hobbit', 2012, 'Orlando Bloom');
+insert into Acteur (titre, annee, acteur) values ('Pirates des Caraibes', 2003,'Orlando Bloom');
+insert into Acteur (titre, annee, acteur) values ('X-Men', 2000, 'Ian McKellen');
+
+create table Cinema ( nom char(50) not null, 
+		      localite char(50) not null, 
+		      date char(20) not null,
+		      titre char(50) not null, 
+		      annee Integer not null, 
+		      primary key( nom , localite , date, titre , annee),
+		      foreign key ( titre , annee ) references Film(titre , annee));
+
+insert into Cinema (nom , localite ,date, titre , annee) values ('UGC toison d or', 'Bruxelles' , "2013-10-23 20:45", 'The Hobbit' , 2012);
+insert into Cinema (nom , localite , date,titre , annee) values ('Wellington' , 'Waterloo' , "2013-10-23 20:45","The Hobbit" , 2012);
+insert into Cinema (nom , localite ,date, titre , annee) values ('UGC toison d or' ,'Bruxelles',"2013-10-23 20:45" , 'Cars', 2006);
