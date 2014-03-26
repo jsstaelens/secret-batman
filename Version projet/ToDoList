@@ -4,12 +4,12 @@ Si vous avez fait un point, modifier ce fichier et mettre « fait[date][correct
 Pour dire qu’on travail sur une partie rajouté votre nom devant sans la date.
 
 [25 mars]:
-- Rajouter la proposition d’un film à un autre utilisateur dans les faits élémentaires.
+[Baptiste] - Rajouter la proposition d’un film à un autre utilisateur dans les faits élémentaires.
 - Rajouter une table Proposition dans le schéma ORM et dans le schéma des tables.
-- Rajouter la proposition d’un film à un autre utilisateur dans les users stories.
+[Baptiste] - Rajouter la proposition d’un film à un autre utilisateur dans les users stories.
 - Faire deux schemas de processus ( ce qu'on a fait cette séance )
-[Charles]- Scanner les cartes CRC
-- Schema relationnel : rajouter une table cine separée
+[Charles] - Scanner les cartes CRC
+[Baptiste] - Schema relationnel : rajouter une table cine separée
 - PARTOUT : rajouter nombre de vue à film
 - PARTOUT : rajouter une adresse email à Utilisateur
 - PARTOUT : rajouter les messages entre utilisateurs
