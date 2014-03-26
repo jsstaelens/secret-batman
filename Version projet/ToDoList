@@ -9,10 +9,12 @@ fait [26 mars][Baptiste] - Rajouter la proposition d’un film à un autre utili
 (c'était déjà dedans) - Rajouter la proposition d’un film à un autre utilisateur dans les users stories.
 [Baptiste] - Faire deux schemas de processus ( ce qu'on a fait cette séance )
 [Charles] - Scanner les cartes CRC
+
 fait [26 mars][Baptiste] - Schema relationnel : rajouter une table cine separée
 - PARTOUT : rajouter nombre de vue à film
 - PARTOUT : rajouter une adresse email à Utilisateur
 - PARTOUT : rajouter les messages entre utilisateurs
 - PARTOUT : rajouter les coordonnées géographiques pour les cinés
-
+[Oli] -faire un rapport .tex sur les choix de developpement
+- debug de la BD
  
