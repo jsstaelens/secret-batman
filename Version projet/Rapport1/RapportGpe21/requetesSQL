@@ -11,10 +11,6 @@ select distinct titre , annee from Motcle where motcle in ('Cocaine','Publicité
 select titre ,annee from Film where titre like '%Lord%';
 select titre ,annee , commentaire from Commentaires where commentaire like '%aime%';
 select titre ,annee from Film where duree < 130 and ( 2000 < annee and annee <2014);
-select titre ,annee , case substring ( pays 1 for 1)
-			when 'USA' then 'Etas-Unis' 
-		      end, 
-			from Originie;
 select avg(duree) as Moyenne from Film;
 select franchise , avg(duree) as Moyenne from Film where franchise like '%Lord%';
 select avg(duree) as DureeMoyenne, max(duree) as DureeMax , min(duree) as DureeMin from Film;
@@ -25,7 +21,7 @@ select count(*) as nombredeVue , titre , annee from Vu group by titre , annee;
 select distinct genre as GenresnonVus from Genre where titre not  in ( select titre  from Vu where pseudo = 'Emilie');
 select distinct genre as GenresVus from Genre where titre not  in ( select titre  from Vu where pseudo = 'Emilie');
 select titre, annee from Film where titre like '%Fiction%';
-select F.titre, F.annee from Film F, Cinema C where F.genre='Action' and F.duree<120 and F.titre=C.titre and F.anne=C.annee;
-select titre,date from Cinema where film='The Hobbit' and strftime(date)>=strftime('now');
-select C.nom, C.localite from Cinema C, Film F where F.genre='Adulte' and F.titre=C.titre and F.annee=C.annee and strftime('%s',C.date)=strftime('%s','now');
-SELECT acteur, count(*) as nombre_film FROM Acteur GROUP BY acteur;
+select F.titre, F.annee from Film F, Cinema C, Genre G where G.genre='Action' and F.duree<120 and F.titre=C.titre and F.annee=C.annee and F.titre=G.titre and F.annee=G.annee;
+select titre,date from Cinema where titre='The Hobbit' and strftime(date)>=strftime('now');
+select C.nom, C.localite from Cinema C, Genre G where G.genre='Adulte' and G.titre=C.titre and G.annee=C.annee and strftime('%s',C.date)=strftime('%s','now');
+SELECT acteur, count(*) as nombre_film FROM Acteur GROUP BY acteur HAVING COUNT(*)>9;

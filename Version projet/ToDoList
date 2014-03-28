@@ -16,7 +16,7 @@ fait [26 mars][Baptiste] - Schema relationnel : rajouter une table cine separée
 - PARTOUT : rajouter les messages entre utilisateurs
 - PARTOUT : rajouter les coordonnées géographiques pour les cinés
 [Oli][fait] -faire un rapport .tex sur les choix de developpement, en attente des schémas sequentielles
-- debug de la BD
+
 
 
 [28 mars]
@@ -27,3 +27,5 @@ fait [26 mars][Baptiste] - Schema relationnel : rajouter une table cine separée
 - Pour le schema quentielle de la recherche de la seance la plus proche: ne serait-il pas plus astucieux que ce soit le classe Film qui recherche le cinema le plus proche ?
 		car dans une instance de cinema, il n'y a pas d'acces aux autres instances. Du coup c'est un peu tricky pour faire des comparaisons. 
 - Ajouter au diagramme relationelles les fonctions utilisées dans le sequentielle. 
+fait [28 mars] [Vic] - Debug de la BD
+ 
