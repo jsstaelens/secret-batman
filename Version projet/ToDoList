@@ -20,12 +20,35 @@ fait [26 mars][Baptiste] - Schema relationnel : rajouter une table cine separée
 
 
 [28 mars]
-- Eval ne devrait-il pas être une composition de la classe Film ? si on supprime un film, on veut aussi supprimer les Evals non ?
-	même chose entre le commentaire et l'utilisateur ? 
-	comme le schema est maintenant ? Il me semble qu'on dit que l'evalutation est un attribut de film. Il faut aussi ajouter un valeur pour donner le nombre total devaluation du
-		film qui ont été faites.
-- Pour le schema quentielle de la recherche de la seance la plus proche: ne serait-il pas plus astucieux que ce soit le classe Film qui recherche le cinema le plus proche ?
-		car dans une instance de cinema, il n'y a pas d'acces aux autres instances. Du coup c'est un peu tricky pour faire des comparaisons. 
+- Eval ne devrait-il pas être une composition de la classe Film ? si on supprime un film, 
+	on veut aussi supprimer les Evals non ? 
+(Baps) -> Mon idée lors du schema était de de lier plus les evaluations aux utilisateurs, pour pouvoir
+	regarder les mêmes film que ses amis ( et qui ont été bien cotés).
+	Donc, si tu supprimes le film, je trouve que ça pourrait rester chez l'utilisateur, quitte a aller chercher
+	le film sur internet si il est plus sur WhatToWatch. Alors qui si tu supprimes l'utilisateur,
+	ça n'a plus de sens pour les evals.
+	
+	même chose entre le commentaire et l'utilisateur ?
+(Baps) -> là , mon idée est que tu veux avoir plusieurs commentaires sur un film que tu t'appretes à voir,
+	et ça importe moins de savoir qui l'a écrit. Donc si tu supprimes l'utilisateur, tu peux quand meme
+	garder le commentaire puisqu'il est presque impersonnel, mais si tu supprimes le film, plus de commentaires.
+	Je suis d'accord que c'est arbitraire, mais c'est ma vision lorsque je recherche un film. Tu peux changer
+	ce que tu veux si ça t'amuses :)
+
+	comme le schema est maintenant ? Il me semble qu'on dit que l'evalutation est un attribut de film.
+(Baps) -> non, c'est Film l'attribut de Eval (je viens de revérifier dans le cours, si tu es sur que je me trompe,
+	dis le moi et on le change)
+
+	Il faut aussi ajouter un valeur pour donner le nombre total devaluation du
+	film qui ont été faites.
+(Baps) -> c'est fait depuis le début, c'est la variable nombreeval :)
+
+- Pour le schema quentielle de la recherche de la seance la plus proche:
+	ne serait-il pas plus astucieux que ce soit le classe Film qui recherche le cinema le plus proche ?
+	car dans une instance de cinema, il n'y a pas d'acces aux autres instances.
+	Du coup c'est un peu tricky pour faire des comparaisons. 
+(Baps) -> ok, tu as raison. Tu le changes?
+
 - Ajouter au diagramme relationelles les fonctions utilisées dans le sequentielle. 
 fait [28 mars] [Vic] - Debug de la BD
  
