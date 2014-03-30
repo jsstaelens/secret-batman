@@ -1,55 +1,111 @@
 \documentclass[10pt,a4paper]{article}
+
 \usepackage[utf8]{inputenc}
+
 \usepackage{amsmath}
+
 \usepackage{amsfonts}
+
 \usepackage{amssymb}
+
 \begin{document}
+
 \begin{center}
+
 \Huge{\textbf{Coo: Choix de conception P2}}
+
+ 
 
 \large{Charles Ninane, Baptiste Degryse, Niels Sayez, Victorien Sonneville, Lucie Hermand, Olivier Bronchain}
 
+ 
+
 \end{center}
 
+ 
+
 \section{Introduction}
-	Durant ces dernières semaines, il nous a été demandé de modeliser les classes qui se retrouveraient dans le code de notre application WhatToWatch. Pour se faire nous avons d'abord écrit des Users Stories, ensuite nous avons ecrit des cartes CRC. Avec celles-ci nous avons pu modeliser nos schémas URM relationelle et puis sequencielle.
-\section{Creation des diagrammes}
+
+    Durant ces dernières semaines, il nous a été demandé de modéliser les classes qui se retrouveraient dans le code de notre application WhatToWatch. Pour se faire nous avons d'abord écrit des Users Stories, ensuite nous avons écrit des cartes CRC. Avec celles-ci nous avons pu modéliser nos schémas UML relationnelles et puis séquentielles.
+
+\section{Création des diagrammes}
+
 \subsection{Users-Stories}
-	La premiere étape pour realiser nos classes était de savoir exactement quelles fonctionalités notre application devait remplir. En se basant sur nos faits élémentaires, sur nos envies et les consignes fournies, nous avons écrit ces histoires d'ulisateurs. Celles-ci sont disponibles dans un autre fichier. Pour permettre une meilleur visibilité pour la suite des opérations, il a été choisit de les divisées en plusieurs catégories:
-	\begin{itemize}
-		\item L'interaction avec l'utilisateur
-		\item Les recherches faites par l'utilisateur
-		\item L'interaction entre l'utlisateur et les films
-		\item La gestion des utilisateurs
-		\item La gestion des films
-		\item Les droits relatifs aux administateurs
-	\end{itemize}
-\subsection{Schema relationel UML}
-	En ce qui concerne le schéma UML, nous avons décidé de choisir un certain nombre de classes. Celles-ci sont orquestrées autour des deux plus importantes ($Utilisateur$ et $Film$). En effet toutes les autres classes hérites ou sont des arguments de ces deux classes. Voici donc une explication des choix de conception.
-	
-	
-	Premièrement, nous avons décidé de definir la classe $Administrateur$ comme héritant de $Utilisateur$ car un admninistrateur c'est qu'un utilisateur avec des droits entendus. 
-	
-	Deuxiemement,il a été choisi de mettre les classes $Suggestion$ et $Eval$ comme des compositions car une fois qu'un utilisateur est supprimé, nous voulons de toutes ses traces disparaissent. Pour les mêmes raisons, les classes $Illustration$ , $Prix$, $Commentaire$ et $MotCle$ sont des compositions de la classe $Film$.
-	
-	Enfin, pour qu'un utilisateur puisse changer les cotes qu'il donne à un film, la classe $Utisateur$ contient une liste avec toutes les $Eval$ qu'un utilisateur a faite
-	
-		
+
+    La première étape pour réaliser nos classes était de savoir exactement quelles fonctionnalités notre application devait remplir. En se basant sur nos faits élémentaires, sur nos envies et les consignes fournies, nous avons écrit ces histoires d'utilisateurs. Celles-ci sont disponibles dans un autre fichier. Pour permettre une meilleur visibilité pour la suite des opérations, il a été choisit de les divisées en plusieurs catégories:
+
+    \begin{itemize}
+
+        \item L'interaction avec l'utilisateur
+
+        \item Les recherches faites par l'utilisateur
+
+        \item L'interaction entre l'utilisateur et les films
+
+        \item La gestion des utilisateurs
+
+        \item La gestion des films
+
+        \item Les droits relatifs aux administrateurs
+
+    \end{itemize}
+
+\subsection{Schéma relationnel UML}
+
+    En ce qui concerne le schéma UML, nous avons décidé de choisir un certain nombre de classes. Celles-ci sont orchestrées autour des deux plus importantes ($Utilisateur$ et $Film$). En effet toutes les autres classes héritent où sont des arguments de ces deux classes. Voici donc une explication des choix de conception.
+
+    
+
+    
+
+    Premièrement, nous avons décidé de définir la classe $Administrateur$ comme héritant de $Utilisateur$ car un administrateur c'est qu'un utilisateur avec des droits entendus.
+
+    
+
+    Deuxièmement, il a été choisi de mettre les classes $Suggestion$ et $Eval$ comme des compositions car une fois qu'un utilisateur est supprimé, nous voulons de toutes ses traces disparaissent. Pour les mêmes raisons, les classes $Illustration$ , $Prix$, $Commentaire$ et $MotCle$ sont des compositions de la classe $Film$.
+
+    
+
+    Enfin, pour qu'un utilisateur puisse changer les cotes qu'il donne à un film, la classe $Utilisateur$ contient une liste avec toutes les $Eval$ qu'un utilisateur a faites.
+
+    
+
+        
+
 \subsection{Schema sequentielle UML}
-	\subsubsection{Ajout d'une note à un film}
-	Comme dit plus haut, quand un utlisateur ajoute une note à un film il faut qu'à la fin de cette opération l'utilisateur se souvienne de la note qu'il a donné et que le film ait actualisé la valeur de sa note globale. Pour y arrivier nous avons choisit la séquence qui se trouve dans le fichier ci joint.
-	
-	Une fois que l'utilisateur veut rajouter une evaluation, il appelle la fonction $AddEvalToFilm()$ sur le film choisit. Ce film se charge de récuperer la note qui doit être attribué grace à la fonction $getInt()$. Il cree alors une nouvelle $Eval$ qui contient la cote et son nom. Il actualise sa note global et la renvoie à l'utilisateur en question. La classe $Utilisateur$ insert alors cette $Eval$ dans sa liste. Ainsi les objectifs sont remplis. 
-	
-	\subsection{Rechercher un film dans les cinemas}
-	Quand un utilisateur veut aller voir un film dans un cinema, il faut que le cinema le plus proche de lui soit proposer. Pour se faire voici l'explication de la séquence ci-jointe.
-	
-	Quand un utilisateur a chosit de rechercher un film, celui-ci appele la fonction $checkCinema()$ sur ce film. Le film se charge alors de regarder quels $Cinema$ jouent le film en faisant une boucle sur toutes les instances de cette classe. La fonction $isPlayingFilm()$ permet de dire si un film joue ou non le film. On compare alors la distance qui sépare l'utilisateur et le cinema. La classe $Film$ retourne alors à $Ulisateur$ le cinema et la scéance la plus proche. 
-	
-	\subsection{Suggestion d'un film}
-	
-	Il est souhaité de pouvoir suggerer à une autre $Utilisateur$ un film qu'il pourait regarder.Affin d'implementer cette fonctionalité, nous avons choisit de proceder de la manière suivante.
-	
-	Quand un utilisateur choisit de suggerer un film, il appele la fonction $creeSuggestion()$ sur le film choisit qui s'occupe de creer la $Suggestion$. Celle-ci est initialisé avec le nom du film et de l'utilisateur A. Une fois que la $Suggestion$ est crée, l'utilisateur A la récupère. Il appele alors la fonction $SuggereToUtilisateur()$ sur l'utilisateur B. Celui place alors la nouvelle suggestion dans sa liste de suggestion grace à la méthode $addSuggestion()$.
-	
+
+    \subsubsection{Ajout d'une note à un film}
+
+    Comme dit plus haut, quand un utilisateur ajoute une note à un film il faut qu'à la fin de cette opération l'utilisateur se souvienne de la note qu'il a donné et que le film ait actualisé la valeur de sa note globale. Pour y arriver nous avons choisit la séquence qui se trouve dans le fichier ci joint.
+
+    
+
+    Une fois que l'utilisateur veut rajouter une évaluation, il appelle la fonction $AddEvalToFilm()$ sur le film choisit. Ce film se charge de récupérer la note qui doit être attribué grâce à la fonction $getInt()$. Il crée alors une nouvelle $Eval$ qui contient la cote et son nom. Il actualise sa note globale et la renvoie à l'utilisateur en question. La classe $Utilisateur$ insert alors cette $Eval$ dans sa liste. Ainsi les objectifs sont remplis.
+
+    
+
+    \subsection{Rechercher un film dans les cinémas}
+
+    Quand un utilisateur veut aller voir un film dans un cinéma, il faut que le cinéma le plus proche de lui soit proposé. Pour se faire voici l'explication de la séquence ci-jointe.
+
+    
+
+    Quand un utilisateur a choisi de rechercher un film, celui-ci appelle la fonction $checkCinema()$ sur ce film. Le film se charge alors de regarder quels $Cinema$ jouent le film en faisant une boucle sur toutes les instances de cette classe. La fonction $isPlayingFilm()$ permet de dire si un film joue ou non le film. On compare alors la distance qui sépare l'utilisateur et le cinéma. La classe $Film$ retourne alors à $Ulisateur$ le cinéma et la séance la plus proche.
+
+    
+
+    \subsection{Suggestion d'un film}
+
+    
+
+    Il est souhaité de pouvoir suggérer à une autre $Utilisateur$ un film qu'il pourrait regarder. Affin d'implémenter cette fonctionnalité, nous avons choisit de procéder de la manière suivante.
+
+    
+
+    Quand un utilisateur choisit de suggérer un film, il appelle la fonction $creeSuggestion()$ sur le film choisit qui s'occupe de créer la $Suggestion$. Celle-ci est initialisé avec le nom du film et de l'utilisateur A. Une fois que la $Suggestion$ est crée, l'utilisateur A la récupère. Il appelle alors la fonction $SuggereToUtilisateur()$ sur l'utilisateur B. Celui place alors la nouvelle suggestion dans sa liste de suggestion grâce à la méthode $addSuggestion()$.
+
+    
+
 \end{document}
+
+ 
