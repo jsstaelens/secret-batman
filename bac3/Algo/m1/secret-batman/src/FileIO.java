@@ -9,8 +9,7 @@ public class FileIO {
 	private String directory;
 	private BufferedReader br ;
 	
-/*	Quelques testes possibles
- * 		public static void main (String[] args){
+	/*public static void main (String[] args){
 		FileIO file = new FileIO("input");
 		ArrayList<String> arLine = file.readByLine();
 		
@@ -29,8 +28,7 @@ public class FileIO {
 		file.close();
 		file = new FileIO("dj");
 	}
-*/
-	
+	*/
 	public FileIO ( String dir ){
 		this.directory = dir;
 		try{
