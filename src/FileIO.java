@@ -15,7 +15,7 @@ public class FileIO {
 	private PrintWriter pw;
 	private FileWriter fw;
 	
-
+	
 	public FileIO ( String dir ){
 		this.directory = dir;
 
@@ -111,6 +111,25 @@ public class FileIO {
 		this.closeWriter();
 	}
 	
+	public void printStack(Stack stack){
+		
+		this.openWriter();
+		Stack stackBack = new Stack();
+		
+		while(!stack.isEmpty()){
+			String str = stack.pop();
+			pw.println(str);
+			stackBack.push(str);
+		}
+		
+		while(!stackBack.isEmpty()){
+			stack.push(stackBack.pop());
+		}
+		
+		this.closeWriter();
+		stackBack = null;
+	}
+	
 	private void openWriter(){
 		try{
 			this.fw = new FileWriter(this.directory);
@@ -135,7 +154,5 @@ public class FileIO {
 			System.exit(-1);
 		}
 	}
-	
-
-	
+		
 }
