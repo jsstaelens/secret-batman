@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class FileIO {
 	
 	private String directory;
-	private BufferedReader br ;
+	
+	private BufferedReader br;
 	private FileReader fr;
 	private PrintWriter pw;
 	private FileWriter fw;
@@ -111,26 +112,11 @@ public class FileIO {
 		this.closeWriter();
 	}
 	
-	public void printStack(Stack stack){
-		
-		this.openWriter();
-		Stack stackBack = new Stack();
-		
-		while(!stack.isEmpty()){
-			String str = stack.pop();
-			pw.println(str);
-			stackBack.push(str);
-		}
-		
-		while(!stackBack.isEmpty()){
-			stack.push(stackBack.pop());
-		}
-		
-		this.closeWriter();
-		stackBack = null;
+	public void println(String str){
+		this.pw.println(str);
 	}
-	
-	private void openWriter(){
+
+	public void openWriter(){
 		try{
 			this.fw = new FileWriter(this.directory);
 			this.pw = new PrintWriter(this.fw);
@@ -142,7 +128,7 @@ public class FileIO {
 	}
 	
 	
-	private void closeWriter(){
+	public void closeWriter(){
 		try{
 			this.fw.close();
 			this.fw = null;

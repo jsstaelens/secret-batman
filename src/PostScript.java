@@ -62,7 +62,7 @@ public class PostScript {
                      stack.pop();
                  }
                  if (stringList.get(i).equals("pstack")) {
-                     fileOut.printStack(stack);
+                     this.printStack();
                  }
                  if (stringList.get(i).equals("dup")) {
                      this.dup(Double.parseDouble(stack.pop()));
@@ -138,5 +138,25 @@ public class PostScript {
             stack.push("true");
         }
     }
+    
+	private void printStack(){
+		
+		fileOut.openWriter();
+		Stack stackBack = new Stack();
+		
+		while(!stack.isEmpty()){
+			String str = stack.pop();
+			fileOut.println(str);
+			stackBack.push(str);
+		}
+		
+		while(!stackBack.isEmpty()){
+			stack.push(stackBack.pop());
+		}
+		
+		fileOut.closeWriter();
+		stackBack = null;
+	}
+	
 
 }
