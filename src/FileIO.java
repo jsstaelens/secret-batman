@@ -105,7 +105,7 @@ public class FileIO {
 	//writing functions
 	
 	public void writeArray(ArrayList<String> ar){
-		this.openWriter();
+		this.openWriter(true);
 		for(int i = 0 ; i<ar.size() ; i++){
 			pw.println(ar.get(i));
 		}
@@ -116,9 +116,9 @@ public class FileIO {
 		this.pw.println(str);
 	}
 
-	public void openWriter(){
+	public void openWriter(boolean op){
 		try{
-			this.fw = new FileWriter(this.directory);
+			this.fw = new FileWriter(this.directory , op);
 			this.pw = new PrintWriter(this.fw);
 		}
 		catch(IOException e){
