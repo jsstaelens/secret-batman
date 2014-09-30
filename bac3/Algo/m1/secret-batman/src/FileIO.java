@@ -9,7 +9,7 @@ public class FileIO {
 	private String directory;
 	private BufferedReader br ;
 	
-/*	Quelques testes possible
+/*	Quelques testes possibles
  * 		public static void main (String[] args){
 		FileIO file = new FileIO("input");
 		ArrayList<String> arLine = file.readByLine();
