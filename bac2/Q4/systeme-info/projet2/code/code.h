@@ -1,5 +1,5 @@
-#define NUM 100
-#define NTHREAD 10
+#define NUM 30
+#define NTHREAD 1
 
 typedef enum State{
         EMPTY,
@@ -15,8 +15,15 @@ typedef struct Pair{
 
 
 typedef struct data{
+	struct pixel **pi;
+	int xmin;
+	int xmax;
+	int ymin;
+	int dx;
+	int dy;
+	int ymax;
 	enum State state;
-	int val;
+
 	int valMissing;
 	pair_t **missing;
 	pthread_mutex_t mutx;
@@ -31,7 +38,7 @@ typedef struct work_on{
 
 typedef struct Matrix{
 	data_t ***mat;
-	pair_t *p[NUM*NUM];
+	pair_t **p;
 	int valp;
 	int valNext;
 	int valx;
@@ -43,6 +50,7 @@ typedef struct Matrix{
 
 typedef struct Argv{
 	int num;
+	int **tab;
 	matrix_t *begin;
 	matrix_t *slot;
 } argv_t;
