@@ -141,7 +141,7 @@ public class PostScript {
     
 	private void printStack(){
 		
-		fileOut.openWriter();
+		fileOut.openWriter(true);
 		Stack stackBack = new Stack();
 		
 		while(!stack.isEmpty()){
