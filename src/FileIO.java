@@ -9,8 +9,8 @@ public class FileIO {
 	private String directory;
 	private BufferedReader br ;
 	
-/*	Quelques testes possibles
- * 		public static void main (String[] args){
+//	Quelques testes possibles
+/* 		public static void main (String[] args){
 		FileIO file = new FileIO("input");
 		ArrayList<String> arLine = file.readByLine();
 		
@@ -18,8 +18,7 @@ public class FileIO {
 			System.out.println(i+" "+arLine.get(i));
 		}
 		
-		file.close();
-		file = new FileIO("input");
+		file.reset();
 		ArrayList<String> arWord = file.readByWord();
 		
 		for (int i = 0 ; i<arWord.size() ; i++){
@@ -69,11 +68,22 @@ public class FileIO {
 	}
 	
 	public void close(){
+
 		try{
 			this.br.close();
 		}
 		catch(IOException e){
 			System.err.println("Error closing file "+this.directory+" "+e.getMessage());
+		}
+	}
+
+	public void reset(){
+		this.close();
+		try{
+			this.br = new BufferedReader(new FileReader(this.directory));
+		}
+		catch(IOException e ){
+			System.err.println("Error opening "+this.directory+" "+e.getMessage());
 		}
 	}
 
@@ -86,8 +96,10 @@ public class FileIO {
 			String[] sLine = line.split(" ");
 			
 			for(int j = 0 ; j<sLine.length ; j++){
-				ar.add(i , sLine[j]);
-				i++;
+				if( !sLine[j].equals("")){
+					ar.add(i , sLine[j]);
+					i++;
+				}
 			}
 
 			line = this.readOneLine();
