@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author Audrey
+ * @author Groupe 5.2
  */
 public class Main {
     

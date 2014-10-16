@@ -26,26 +26,42 @@ public class FormalExpressionTreeImplemented implements FormalExpressionTree {
         String str[] = expression.split("");
         String elt;
         for (int i = 0; i < str.length; i++) {
-            System.out.println(str.length);
+            if (!operateurs.isEmpty()) {
+                while (operateurs.peek().equals("(")) {
+                    operateurs.pop();
+                }
+            }
             elt = str[i];
-            if (elt.equals("+") || elt.equals("-") ||elt.equals("/")
+            if (elt.equals("+") || elt.equals("-") || elt.equals("/")
                     || elt.equals("*") || elt.equals("^") || elt.equals("(")) {
                 operateurs.push(elt);
             } else if (elt.equals(")")) {
-                LinkedRBinaryTree lbtRight = new LinkedRBinaryTree(operands.pop());
-                LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());               
-                LinkedRBinaryTree lbt = new LinkedRBinaryTree(lbtRight, lbtLeft, operateurs.pop());
-                operands.push(lbt);
-                System.out.println(lbt.toString());
-            } else if(!elt.equals("")){
+                buildTree(operands, operateurs);
+            } else if (!elt.equals("")) {
                 operands.push(elt);
             }
             System.out.println("operateur : " + operateurs);
             System.out.println("operands : " + operands);
         }
+        if (!operands.isEmpty() || !operateurs.isEmpty()) {
+            while (!operands.isEmpty() && !operateurs.isEmpty()) {
+                buildTree(operands, operateurs);
+            }
+        }
         System.out.println("---------");
         System.out.println("operateur : " + operateurs);
         System.out.println("operands : " + operands);
+        
+        LinkedRBinaryTree tree = (LinkedRBinaryTree) operands.pop();
+        System.out.println(tree.toString());
+    }
+
+    private void buildTree(Stack operands, Stack operateurs) {
+        LinkedRBinaryTree lbtRight = new LinkedRBinaryTree(operands.pop());
+        LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
+        LinkedRBinaryTree lbt = new LinkedRBinaryTree(lbtRight, lbtLeft, operateurs.pop());
+        operands.push(lbt);
+        System.out.println(lbt.toString());
     }
 
 
