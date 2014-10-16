@@ -1,297 +1,379 @@
-
 import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- *
+ * 
  * @author Groupe 5.2
- *
+ * 
  */
 public class FormalExpressionTreeImplemented implements FormalExpressionTree {
 
-    public FormalExpressionTreeImplemented right;
-    public FormalExpressionTreeImplemented left;
-    public String element;
-    public String expression;
-    public LinkedRBinaryTree treeBuilt;
+	private LinkedRBinaryTree<String> tree;
+	public String element; // valeur de la racine
+	String expression;
+	public LinkedRBinaryTree treeBuilt;
 
-    public FormalExpressionTreeImplemented() {
-        this.right = null;
-        this.left = null;
-        this.element = null;
-    }
+	public FormalExpressionTreeImplemented(LinkedRBinaryTree<String> tree) {
+		this.tree = tree;
+	}
 
-    public FormalExpressionTreeImplemented(String expression) {
-        Stack<Object> operands = new Stack<>();
-        Stack<Object> operateurs = new Stack<>();
-        String str[] = createTabExpression(expression);
-        String elt;
-        for (int i = 0; i < str.length; i++) {
-            elt = str[i];
-            if (elt.equals("+") || elt.equals("-") || elt.equals("/")
-                    || elt.equals("*") || elt.equals("^")) {
-                operateurs.push(elt);
-            } else if (elt.equals(")")) {
-                buildTree(operands, operateurs);
-            } else if (!elt.equals("") && !elt.equals("(")) {
-                operands.push(elt);
-            }
-        }
-        if (!operands.isEmpty() || !operateurs.isEmpty()) {
-            while (!operands.isEmpty() && !operateurs.isEmpty()) {
-                buildTree(operands, operateurs);
-            }
-        }
-        System.out.println("operateur : " + operateurs);
-        System.out.println("operands : " + operands);
+	public FormalExpressionTreeImplemented(String expression) {
+		Stack<Object> operands = new Stack<>();
+		Stack<Object> operateurs = new Stack<>();
+		String str[] = createTabExpression(expression);
+		String elt;
+		for (int i = 0; i < str.length; i++) {
 
-        treeBuilt = new LinkedRBinaryTree(operands.pop());
-        System.out.println(treeBuilt.toString());
-    }
+			elt = str[i];
+			if (elt.equals("+") || elt.equals("-") || elt.equals("/")
+					|| elt.equals("*") || elt.equals("^")) {
+				operateurs.push(elt);
+			} else if (elt.equals(")")) {
+				buildTree(operands, operateurs);
+			} else if (!elt.equals("") && !elt.equals("(")) {
+				operands.push(elt);
+			}
+		}
+		if (!operands.isEmpty() || !operateurs.isEmpty()) {
+			while (!operands.isEmpty() && !operateurs.isEmpty()) {
+				buildTree(operands, operateurs);
+			}
+		}
+		System.out.println("operateur : " + operateurs);
+		System.out.println("operands : " + operands);
+		this.tree = (LinkedRBinaryTree<String>) operands.pop();
+		System.out.println(this.toString());
+	}
 
-    private String[] createTabExpression(String expression) {
-        String str[] = new String[expression.length()];
-        char car;
-        int i = 0, j = 0;
-        while (i < expression.length()) {
-            car = expression.charAt(i);
-            if (car == 's' || car == 'c' || car == 'l') {  //s pour sin, c pour cos et l pour log
-                str[j] = "sin";
-                i = i + 2;
-            } else if (car != ' ') {
-                str[j] = String.valueOf(car);
-            }
-            i++;
-            j++;
-        }
-        String str2[] = resize(str, j);
-        return str2;
-    }
+	private String[] createTabExpression(String expression) {
+		String str[] = new String[expression.length()];
+		char car;
+		int i = 0, j = 0;
+		while (i < expression.length()) {
+			car = expression.charAt(i);
+			if (car == 's' || car == 'c' || car == 'l') { // s pour sin, c pour
+															// cos et l pour log
+				str[j] = "sin";
+				i = i + 2;
+			} else if (car != ' ') {
+				str[j] = String.valueOf(car);
+			}
+			i++;
+			j++;
+		}
+		String str2[] = resize(str, j);
+		return str2;
+	}
 
-    private String[] resize(String[] str, int nouvelleTaille) {
-        String str2[] = new String[nouvelleTaille];
-        for (int i = 0; i < str2.length; i++) {
-            str2[i] = str[i];
-        }
-        return str2;
-    }
+	private String[] resize(String[] str, int nouvelleTaille) {
+		String str2[] = new String[nouvelleTaille];
+		for (int i = 0; i < str2.length; i++) {
+			str2[i] = str[i];
+		}
+		return str2;
+	}
 
-    private void buildTree(Stack operands, Stack operateurs) {
-        Object op = operateurs.pop();
-        LinkedRBinaryTree lbt;
-        if (op.equals("sin") || op.equals("cos") || op.equals("log")) {
-            LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
-            lbt = new LinkedRBinaryTree(null, lbtLeft, op);
-        } else {
-            LinkedRBinaryTree lbtRight = new LinkedRBinaryTree(operands.pop());
-            LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
-            lbt = new LinkedRBinaryTree(lbtRight, lbtLeft, op);
-        }
-        operands.push(lbt);
-    }
+	private void buildTree(Stack operands, Stack operateurs) {
+		Object ob = operateurs.pop();
+		LinkedRBinaryTree<String> lb;
+		
 
-    public FormalExpressionTreeImplemented(FormalExpressionTreeImplemented left, FormalExpressionTreeImplemented right, String element) {
-        this.right = right;
-        this.left = left;
-        this.element = element;
-    }
+		if (ob.equals("sin") || ob.equals("cos") || ob.equals("log")) {
+			LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
+			lb = new LinkedRBinaryTree(null, lbtLeft, ob);
+		} else {
+	    	LinkedRBinaryTree<String> lbRight;
+	    	LinkedRBinaryTree<String> lbLeft;
+	    	Object op = operands.pop();
 
-    public FormalExpressionTreeImplemented getRight() {
-        return right;
-    }
+			if (op instanceof LinkedRBinaryTree)
+				lbRight = (LinkedRBinaryTree<String>) op;
+			else
+				lbRight = new LinkedRBinaryTree<String>((String) op);
 
-    public FormalExpressionTreeImplemented getLeft() {
-        return left;
-    }
+			op = operands.pop();
 
-    public String getElement() {
-        return element;
-    }
+			if (op instanceof LinkedRBinaryTree)
+				lbLeft = (LinkedRBinaryTree<String>) op;
+			else
+				lbLeft = new LinkedRBinaryTree<String>((String) op);
 
-    public void setRight(FormalExpressionTreeImplemented right) {
-        this.right = right;
-    }
+			lb = new LinkedRBinaryTree<String>(lbRight, lbLeft, (String) ob);
 
-    public void setLeft(FormalExpressionTreeImplemented left) {
-        this.left = left;
-    }
+		}
+		
+		operands.push(lb);
+	}
 
-    public void setElement(String element) {
-        this.element = element;
-    }
+	/*
+	 * public FormalExpressionTreeImplemented(String element) { this.element =
+	 * element; }
+	 */
 
-    public ArrayList<String> inorder(ArrayList<String> al) {
-        if (isLeaf()) {
-            al.add(element);
-        } else {
-            this.left.inorder(al);
-            al.add(element);
-            this.right.inorder(al);
-        }
-        return al;
+	public RBinaryTree<String> getRight() {
+		return tree.rightTree();
+	}
 
-    }
+	public RBinaryTree<String> getLeft() {
+		return tree.leftTree();
+	}
 
-    public ArrayList<String> inorderGet() {
-        ArrayList<String> al = new ArrayList<String>();
-        return inorder(al);
-    }
+	public String getElement() {
+		return element;
+	}
 
-    private boolean isLeaf() {
-        return this.right == null & this.left == null;
-    }
+	public void setRight(RBinaryTree<String> right) {
+		this.tree.setRight(right);
+	}
 
-    @Override
-    public String toString() {
-        ArrayList<String> al = this.inorderGet();
-        String string = null;
-        for (String str : al) {
-            string = string + str;
-        }
-        return string;
-    }
+	public void setLeft(RBinaryTree<String> left) {
+		this.tree.setLeft(left);
+	}
 
-    /*public FormalExpressionTreeImplemented build(String expression) {
-     //TODO
-     return null;
-     }*/
-    /**
-     * @pre : l'arbre surlequel on applique la fonction derive() a été
-     * correctement construit
-     * @post : Retourne une expression sous forme d'arbre représentant la dérivé
-     * de l'arbre surlequel on a appliqué la fonction
-     */
-    @Override
-    public FormalExpressionTreeImplemented derive() {
-        //Analyse de la valeur de la racine et lance l'operation adéquate
-        if (this.element == null) {
-            return null;
-        } else if (this.element.equals("+")) {
-            return this.operationPlus();
+	public void setElement(String element) {
+		this.element = element;
+	}
 
-        } else if (this.element.equals("-")) {
-            return this.operationMinus();
+	public ArrayList<String> inorder(ArrayList<String> al) {
+		return this.tree.inorder(al);
+	}
 
-        } else if (this.element.equals("*")) {
-            return this.operationMultiply();
+	public ArrayList<String> inorderGet() {
+		ArrayList<String> al = new ArrayList<String>();
+		return inorder(al);
+	}
 
-        } else if (this.element.equals("/")) {
-            return this.operationDivide();
+	private boolean isLeaf() {
+		return this.tree.isLeaf();
+	}
 
-        } else if (this.element.equals("^")) {
-            return this.operationExp();
+	@Override
+	public String toString() {
+		return getString(this.tree);
+	}
 
-        } else if (this.element.equals("x")) {
-            return this.operationX();
+	private String getString(RBinaryTree<String> t) {
 
-        } else {
-            return this.operationInt();
-        }
-    }
+		LinkedRBinaryTree<String> tree = (LinkedRBinaryTree<String>) t;
 
-    /**
-     *
-     * @return Retourne la dérivé de x, c'est-à-dire 1, sous forme de
-     * FormalExpressionTreeImplemented
-     */
-    public FormalExpressionTreeImplemented operationX() {
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(this.left, this.right, "1");
-        return tree;
-    }
+		if (tree.rightTree() == null && tree.leftTree() == null)
+			return tree.element;
+		else if (tree.rightTree() == null)
+			return "(" + tree.element.concat(getString(tree.leftTree())) + ")";
+		else if (tree.leftTree() == null)
+			return "(" + getString(tree.rightTree()).concat(tree.element) + ")";
+		else
+			return "("
+					+ getString(tree.rightTree()).concat(
+							tree.element.concat(getString(tree.leftTree())))
+					+ ")";
 
-    /**
-     *
-     * @return Retourne la dérivé d'une constante a, c'est-à-dire 0, sous forme
-     * de FormalExpressionTreeImplemented
-     */
-    public FormalExpressionTreeImplemented operationInt() {
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(this.left, this.right, "0");
-        return tree;
-    }
+	}
 
-    /**
-     * Operation de dérivé sur une expression de type f+g => (f+g)'
-     *
-     * @return retourne la dérivé sous forme f' + g'
-     */
-    public FormalExpressionTreeImplemented operationPlus() {
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(this.left.derive(), this.right.derive(), "+");
-        return tree;
-    }
+	private void setTree(LinkedRBinaryTree<String> tree) {
+		this.tree = tree;
+	}
 
-    /**
-     * Operation de dérivé sur une expression de type f-g => (f-g)'
-     *
-     * @return retourne la dérivé sous forme f' - g'
-     */
-    public FormalExpressionTreeImplemented operationMinus() {
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(this.left.derive(), this.right.derive(), "-");
-        return tree;
-    }
+	/*
+	 * public FormalExpressionTreeImplemented build(String expression) { //TODO
+	 * return null; }
+	 */
+	/**
+	 * @pre : l'arbre surlequel on applique la fonction derive() a été
+	 *      correctement construit
+	 * @post : Retourne une expression sous forme d'arbre représentant la dérivé
+	 *       de l'arbre surlequel on a appliqué la fonction
+	 */
+	@Override
+	public FormalExpressionTreeImplemented derive() {
 
-    /**
-     * Operation de dérivé sur une expression de type f*g => (f*g)'
-     *
-     * @return retourne la dérivé sous forme g*f' + f*g'
-     */
-    public FormalExpressionTreeImplemented operationMultiply() {
-        FormalExpressionTreeImplemented treeLeft = new FormalExpressionTreeImplemented(this.left.derive(), this.right, "*");
-        FormalExpressionTreeImplemented treeRight = new FormalExpressionTreeImplemented(this.left, this.right.derive(), "*");
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(treeLeft, treeRight, "+");
-        return tree;
-    }
+		LinkedRBinaryTree<String> tree = this.derivePrivate();
+		return new FormalExpressionTreeImplemented(tree);
 
-    /**
-     * Operation de dérivé sur une expression de type f/g => (f/g)'
-     *
-     * @return retourne la dérivé sous forme (g*f' - f*g')/(g^2)
-     */
-    public FormalExpressionTreeImplemented operationDivide() {
-        FormalExpressionTreeImplemented treeLeft1 = new FormalExpressionTreeImplemented(this.left.derive(), this.right, "*");
-        FormalExpressionTreeImplemented treeRight1 = new FormalExpressionTreeImplemented(this.left, this.right.derive(), "*");
-        FormalExpressionTreeImplemented treeLeft = new FormalExpressionTreeImplemented(treeLeft1, treeRight1, "-");
-        FormalExpressionTreeImplemented tree2 = new FormalExpressionTreeImplemented("2");
-        FormalExpressionTreeImplemented treeRight = new FormalExpressionTreeImplemented(this.right, tree2, "^");
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(treeLeft, treeRight, "/");
-        return tree;
-    }
+	}
 
-    /**
-     * Operation de dérivé sur une expression de type sin(f) => sin'(f)
-     *
-     * @return retourne la dérivé sous forme f'*cos(f)
-     */
-    public FormalExpressionTreeImplemented operationSinus() {
-        FormalExpressionTreeImplemented treeCos = new FormalExpressionTreeImplemented(this.left, null, "cos");
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(this.left.derive(), treeCos, "*");
-        return tree;
-    }
+	private LinkedRBinaryTree<String> derivePrivate() {
+		// Analyse de la valeur de la racine et lance l'operation adéquate
+		if (this.tree.element == null) {
+			return null;
+		} else if (this.tree.element.equals("+")) {
+			return this.operationPlus();
 
-    /**
-     * Operation de dérivé sur une expression de type cos(f) => cos'(f)
-     *
-     * @return retourne la dérivé sous forme (0-f')*sin(f)
-     */
-    public FormalExpressionTreeImplemented operationCosinus() {
-        FormalExpressionTreeImplemented treeSin = new FormalExpressionTreeImplemented(this.left, null, "sin");
-        FormalExpressionTreeImplemented tree0 = new FormalExpressionTreeImplemented("0");
-        FormalExpressionTreeImplemented treeLeft = new FormalExpressionTreeImplemented(tree0, this.left.derive(), "-");
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(treeLeft, treeSin, "*");
-        return tree;
-    }
+		} else if (this.tree.element.equals("-")) {
+			return this.operationMinus();
 
-    /**
-     * Operation de dérive sur une expression de type f^a => (f^a)'
-     *
-     * @return retourne la dérivé sous forme a*(f^(a-1))*f'
-     */
-    public FormalExpressionTreeImplemented operationExp() {
-        FormalExpressionTreeImplemented tree1 = new FormalExpressionTreeImplemented("1");
-        FormalExpressionTreeImplemented treeE = new FormalExpressionTreeImplemented(this.right, tree1, "-");
-        FormalExpressionTreeImplemented treeExp = new FormalExpressionTreeImplemented(this.left, treeE, "^");
-        FormalExpressionTreeImplemented treeLeft = new FormalExpressionTreeImplemented(treeExp, this.left.derive(), "*");
-        FormalExpressionTreeImplemented tree = new FormalExpressionTreeImplemented(this.right, treeLeft, "*");
-        return tree;
+		} else if (this.tree.element.equals("*")) {
+			return this.operationMultiply();
 
-    }
+		} else if (this.tree.element.equals("/")) {
+			return this.operationDivide();
+
+		} else if (this.tree.element.equals("^")) {
+			return this.operationExp();
+
+		} else if (this.tree.element.equals("x")) {
+			return this.operationX();
+
+		} else {
+			return this.operationInt();
+		}
+	}
+
+	/**
+	 * 
+	 * @return Retourne la dérivé de x, c'est-à-dire 1, sous forme de
+	 *         FormalExpressionTreeImplemented
+	 */
+	private LinkedRBinaryTree<String> operationX() {
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), this.tree.rightTree(), "1");
+		return tree;
+	}
+
+	/**
+	 * 
+	 * @return Retourne la dérivé d'une constante a, c'est-à-dire 0, sous forme
+	 *         de FormalExpressionTreeImplemented
+	 */
+	private LinkedRBinaryTree<String> operationInt() {
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), this.tree.rightTree(), "0");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérivé sur une expression de type f+g => (f+g)'
+	 * 
+	 * @return retourne la dérivé sous forme f' + g'
+	 */
+	private LinkedRBinaryTree<String> operationPlus() {
+		FormalExpressionTreeImplemented tr = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.rightTree());
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				tr.derivePrivate(), tl.derivePrivate(), "+");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérivé sur une expression de type f-g => (f-g)'
+	 * 
+	 * @return retourne la dérivé sous forme f' - g'
+	 */
+	private LinkedRBinaryTree<String> operationMinus() {
+		FormalExpressionTreeImplemented tr = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.rightTree());
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				tl.derivePrivate(), tr.derivePrivate(), "-");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérivé sur une expression de type f*g => (f*g)'
+	 * 
+	 * @return retourne la dérivé sous forme g*f' + f*g'
+	 */
+	private LinkedRBinaryTree<String> operationMultiply() {
+
+		FormalExpressionTreeImplemented tr = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.rightTree());
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> treeLeft = new LinkedRBinaryTree<String>(
+				tl.derivePrivate(), this.tree.rightTree(), "*");
+		LinkedRBinaryTree<String> treeRight = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), tr.derivePrivate(), "*");
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				treeLeft, treeRight, "+");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérivé sur une expression de type f/g => (f/g)'
+	 * 
+	 * @return retourne la dérivé sous forme (g*f' - f*g')/(g^2)
+	 */
+	private LinkedRBinaryTree<String> operationDivide() {
+
+		FormalExpressionTreeImplemented tr = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.rightTree());
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> treeLeft1 = new LinkedRBinaryTree<String>(
+				tl.derivePrivate(), this.tree.rightTree(), "*");
+		LinkedRBinaryTree<String> treeRight1 = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), tr.derivePrivate(), "*");
+		LinkedRBinaryTree<String> treeLeft = new LinkedRBinaryTree<String>(
+				treeLeft1, treeRight1, "-");
+		LinkedRBinaryTree<String> tree2 = new LinkedRBinaryTree<String>("2");
+		LinkedRBinaryTree<String> treeRight = new LinkedRBinaryTree<String>(
+				this.tree.rightTree(), tree2, "^");
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				treeLeft, treeRight, "/");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérivé sur une expression de type sin(f) => sin'(f)
+	 * 
+	 * @return retourne la dérivé sous forme f'*cos(f)
+	 */
+	private LinkedRBinaryTree<String> operationSinus() {
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> treeCos = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), null, "cos");
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				tl.derivePrivate(), treeCos, "*");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérivé sur une expression de type cos(f) => cos'(f)
+	 * 
+	 * @return retourne la dérivé sous forme (0-f')*sin(f)
+	 */
+	private LinkedRBinaryTree<String> operationCosinus() {
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> treeSin = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), null, "sin");
+		LinkedRBinaryTree<String> tree0 = new LinkedRBinaryTree<String>("0");
+		LinkedRBinaryTree<String> treeLeft = new LinkedRBinaryTree<String>(
+				tree0, tl.derivePrivate(), "-");
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				treeLeft, treeSin, "*");
+		return tree;
+	}
+
+	/**
+	 * Operation de dérive sur une expression de type f^a => (f^a)'
+	 * 
+	 * @return retourne la dérivé sous forme a*(f^(a-1))*f'
+	 */
+	private LinkedRBinaryTree<String> operationExp() {
+		FormalExpressionTreeImplemented tl = new FormalExpressionTreeImplemented(
+				(LinkedRBinaryTree<String>) this.tree.leftTree());
+
+		LinkedRBinaryTree<String> tree1 = new LinkedRBinaryTree<String>("1");
+		LinkedRBinaryTree<String> treeE = new LinkedRBinaryTree<String>(
+				this.tree.rightTree(), tree1, "-");
+		LinkedRBinaryTree<String> treeExp = new LinkedRBinaryTree<String>(
+				this.tree.leftTree(), treeE, "^");
+		LinkedRBinaryTree<String> treeLeft = new LinkedRBinaryTree<String>(
+				treeExp, tl.derivePrivate(), "*");
+		LinkedRBinaryTree<String> tree = new LinkedRBinaryTree<String>(
+				this.tree.rightTree(), treeLeft, "*");
+		return tree;
+
+	}
 }

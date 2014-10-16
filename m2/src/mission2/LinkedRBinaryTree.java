@@ -6,6 +6,7 @@ import java.util.ArrayList;
  *
  * @author Groupe 5.2
  */
+
 public class LinkedRBinaryTree<E> implements RBinaryTree<E> {
 
     public RBinaryTree<E> right;
@@ -16,6 +17,19 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E> {
     public LinkedRBinaryTree(E element) {
         this.element = element;
     }
+    
+    public ArrayList<E> inorder(ArrayList<E> al) {
+        if (isLeaf()) {
+            al.add(element);
+        } else {
+            this.left.inorder(al);
+            al.add(element);
+            this.right.inorder(al);
+        }
+        return al;
+
+    }
+
     
     public LinkedRBinaryTree(RBinaryTree<E> right, RBinaryTree<E> left, E element) {
         this.right = right;
@@ -85,25 +99,6 @@ public class LinkedRBinaryTree<E> implements RBinaryTree<E> {
         this.right = tree;
 
     }
-
-    /*public void throughTree(ArrayList<Position<E>> al) {
-        if (isLeaf()) {
-            al.add(this.position);
-        } else {
-            al.add(this.position);
-            this.left.throughTree(al);
-            this.right.throughTree(al);
-        }
-    }*/
-
-    /*@Override
-    public Iterable<Position<E>> positions() {
-
-        ArrayList<Position<E>> al = new ArrayList<>();
-        throughTree(al);
-        return al;
-
-    }*/
 
     @Override
     public Iterable<Position<E>> positions() {

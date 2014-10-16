@@ -1,4 +1,3 @@
-package mission2;
 
 /**
  * Un "FormalExpressionTree" est un arbre permettant de mémoriser

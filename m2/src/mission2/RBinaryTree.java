@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 
 /**
@@ -68,5 +70,7 @@ public interface RBinaryTree<E> {
    *       following an inorder traversal, is returned. 
    */   
   public Iterable<Position<E>> positions();
+  
+  public ArrayList<E> inorder(ArrayList<E> al);
 }
 
