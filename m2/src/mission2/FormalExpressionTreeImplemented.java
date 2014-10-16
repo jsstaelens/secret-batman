@@ -11,8 +11,9 @@ public class FormalExpressionTreeImplemented implements FormalExpressionTree {
 
     public FormalExpressionTreeImplemented right;
     public FormalExpressionTreeImplemented left;
-    public String element; //valeur de la racine
-    String expression;
+    public String element;
+    public String expression;
+    public LinkedRBinaryTree treeBuilt;
 
     public FormalExpressionTreeImplemented() {
         this.right = null;
@@ -23,51 +24,72 @@ public class FormalExpressionTreeImplemented implements FormalExpressionTree {
     public FormalExpressionTreeImplemented(String expression) {
         Stack<Object> operands = new Stack<>();
         Stack<Object> operateurs = new Stack<>();
-        String str[] = expression.split("");
+        String str[] = createTabExpression(expression);
         String elt;
         for (int i = 0; i < str.length; i++) {
-            if (!operateurs.isEmpty()) {
-                while (operateurs.peek().equals("(")) {
-                    operateurs.pop();
-                }
-            }
             elt = str[i];
             if (elt.equals("+") || elt.equals("-") || elt.equals("/")
-                    || elt.equals("*") || elt.equals("^") || elt.equals("(")) {
+                    || elt.equals("*") || elt.equals("^")) {
                 operateurs.push(elt);
             } else if (elt.equals(")")) {
                 buildTree(operands, operateurs);
-            } else if (!elt.equals("")) {
+            } else if (!elt.equals("") && !elt.equals("(")) {
                 operands.push(elt);
             }
-            System.out.println("operateur : " + operateurs);
-            System.out.println("operands : " + operands);
         }
         if (!operands.isEmpty() || !operateurs.isEmpty()) {
             while (!operands.isEmpty() && !operateurs.isEmpty()) {
                 buildTree(operands, operateurs);
             }
         }
-        System.out.println("---------");
         System.out.println("operateur : " + operateurs);
         System.out.println("operands : " + operands);
-        
-        LinkedRBinaryTree tree = (LinkedRBinaryTree) operands.pop();
-        System.out.println(tree.toString());
+
+        treeBuilt = new LinkedRBinaryTree(operands.pop());
+        System.out.println(treeBuilt.toString());
+    }
+
+    private String[] createTabExpression(String expression) {
+        String str[] = new String[expression.length()];
+        char car;
+        int i = 0, j = 0;
+        while (i < expression.length()) {
+            car = expression.charAt(i);
+            if (car == 's' || car == 'c' || car == 'l') {  //s pour sin, c pour cos et l pour log
+                str[j] = "sin";
+                i = i + 2;
+            } else if (car != ' ') {
+                str[j] = String.valueOf(car);
+            }
+            i++;
+            j++;
+        }
+        String str2[] = resize(str, j);
+        return str2;
+    }
+
+    private String[] resize(String[] str, int nouvelleTaille) {
+        String str2[] = new String[nouvelleTaille];
+        for (int i = 0; i < str2.length; i++) {
+            str2[i] = str[i];
+        }
+        return str2;
     }
 
     private void buildTree(Stack operands, Stack operateurs) {
-        LinkedRBinaryTree lbtRight = new LinkedRBinaryTree(operands.pop());
-        LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
-        LinkedRBinaryTree lbt = new LinkedRBinaryTree(lbtRight, lbtLeft, operateurs.pop());
+        Object op = operateurs.pop();
+        LinkedRBinaryTree lbt;
+        if (op.equals("sin") || op.equals("cos") || op.equals("log")) {
+            LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
+            lbt = new LinkedRBinaryTree(null, lbtLeft, op);
+        } else {
+            LinkedRBinaryTree lbtRight = new LinkedRBinaryTree(operands.pop());
+            LinkedRBinaryTree lbtLeft = new LinkedRBinaryTree(operands.pop());
+            lbt = new LinkedRBinaryTree(lbtRight, lbtLeft, op);
+        }
         operands.push(lbt);
-        System.out.println(lbt.toString());
     }
 
-
-    /*public FormalExpressionTreeImplemented(String element) {
-     this.element = element;
-     }*/
     public FormalExpressionTreeImplemented(FormalExpressionTreeImplemented left, FormalExpressionTreeImplemented right, String element) {
         this.right = right;
         this.left = left;
